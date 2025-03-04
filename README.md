@@ -74,6 +74,3 @@
 5️⃣ **Summary is returned to the user**  
 
 ---
-
-This plan keeps your **backend separate** from the **frontend**, making it scalable. Do you need help breaking down any step? 🚀
->>>>>>> 783b882 (feature: summarize videos with ai implemented on backend)
