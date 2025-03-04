@@ -1,5 +1,4 @@
 ### **Flow & Tasks to Build Your YouTube Summarizer AI**  
-*(Considering you’ll implement a front-end later)*  
 
 ---
 
