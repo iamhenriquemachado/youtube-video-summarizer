@@ -1,75 +1,92 @@
-### **Flow & Tasks to Build Your YouTube Summarizer AI**  
+# YouTube Video Summarizer API
 
----
+This API, built with FastAPI, extracts and summarizes key points from YouTube videos using AI. If you don't have time to watch a full video or podcast, simply provide the link, and the API will generate a concise summary.
 
-### **1. Define the Application Scope**  
-- The app will take a **YouTube URL** as input.  
-- It will **extract text** (from subtitles or transcribed audio).  
-- The extracted text will be **summarized** using AI (Gemini).  
-- The summarized text will be **returned** in a structured format.  
+## Features
+- Extracts transcripts from YouTube videos
+- Cleans and processes transcript text
+- Uses AI to summarize key insights
+- Retrieves video details (title, description, duration)
 
----
+## Tech Stack
+- **FastAPI** - Web framework for building APIs
+- **YouTube API** - To fetch video data
+- **Google Gemini AI** - For AI-powered summarization
+- **Pydantic** - Data validation
+- **Uvicorn** - ASGI server for running the API
 
-### **2. Backend Development Plan (Python API)**  
-#### **Step 1: Setup the API**  
-[X]- Create a **FastAPI or Flask** backend.  
-[X] Define an **endpoint** to receive a YouTube URL.  
+## Installation
 
-#### **Step 2: Extract Video Metadata**  
-[X] Use **YouTube Data API** to fetch video details (title, duration, description).  
-[X]Validate if the URL is correct and accessible.  
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/yourusername/youtube-summarizer-api.git
+   cd youtube-summarizer-api
+   ```
 
-#### **Step 3: Get Captions or Transcribe Audio**  
-[X] Try fetching **subtitles** using `youtube-transcript-api`.  
-- If subtitles are not available:  
-  - **Stream audio** from YouTube (without downloading) using `yt-dlp`.  
-  - **Transcribe** audio using **Google Cloud Speech-to-Text API**.  
+2. Create a virtual environment and activate it:
+   ```sh
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
 
-#### **Step 4: Process & Summarize Text**  
-[x] Clean the transcript (remove timestamps, filler words).  
-[x] Send text to **Gemini API** for summarization.   
+3. Install dependencies:
+   ```sh
+   pip install -r requirements.txt
+   ```
 
-#### **Step 5: Return Processed Summary**  
-[x] Format the summary into **JSON** (for easy integration with the frontend).  
+4. Set up your YouTube API key in the script:
+   ```python
+   youtube_api_key = "YOUR_KEY"
+   ```
 
----
+## Usage
 
-### **3. Frontend Development Plan (Next.js + ShadCN UI)**  
-#### **Step 6: Build UI for User Interaction**  
-- Create a **simple input form** for users to enter a YouTube URL.  
-- Add a **submit button** to trigger the backend request.  
+### Start the API
+Run the server with Uvicorn:
+```sh
+uvicorn youtube_summarizer:app --host 127.0.0.1 --port 8000 --reload
+```
 
-#### **Step 7: Display Summary Results**  
-- Show a **loading indicator** while processing.  
-- Display **video details** (title, duration).  
-- Present the **summarized text** in a clean format.  
+### Endpoints
 
-#### **Step 8: Add Export Options**  
-- Allow users to **copy the summary** or **download it** (TXT, JSON, PDF).  
+#### Summarize a YouTube Video
+```http
+POST /youtube/summarize/
+```
+**Request Body:**
+```json
+{
+  "youtube_url": "https://www.youtube.com/watch?v=VIDEO_ID"
+}
+```
+**Response:**
+```json
+{
+  "message": "URL received - processing video. Please wait.",
+  "Transcript": "Summarized key points from the video."
+}
+```
 
----
+#### Get YouTube Video Details
+```http
+GET /youtube/details/{video_id}
+```
+**Response:**
+```json
+{
+  "title": "Video Title",
+  "description": "Video Description",
+  "duration": "PT15M10S"
+}
+```
 
-### **4. Deployment & Optimization**  
-#### **Step 9: Deploy the API**  
-- Host the backend on **Render, Vercel (serverless), or Google Cloud Run**.  
-- Secure API keys using **environment variables**.  
+## Future Improvements
+- Add support for multiple languages
+- Deploy the API for public use
+- Improve transcript processing for better AI summaries
 
-#### **Step 10: Deploy the Frontend**  
-- Host the frontend on **Vercel**.  
-- Connect the frontend with the API.  
+## Contributing
+Feel free to open issues or submit pull requests to improve this project!
 
-#### **Step 11: Improve Performance & Features**  
-- Optimize **transcription accuracy** (custom models for better speech recognition).  
-- Implement **caching** for repeated video requests.  
-- Add **multi-language support** for users who need summaries in different languages.  
-
----
-
-### **Final Flow of the App**  
-1️⃣ **User inputs YouTube URL**  
-2️⃣ **App fetches metadata & tries to get captions**  
-3️⃣ **If no captions, audio is streamed & transcribed**  
-4️⃣ **Text is cleaned & summarized with Gemini**  
-5️⃣ **Summary is returned to the user**  
-
----
+## License
+This project is open-source and available under the [MIT License](LICENSE).
